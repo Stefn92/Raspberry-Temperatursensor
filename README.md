@@ -3,6 +3,8 @@
 Dieses Projekt ermöglicht die Messung von Temperaturen mithilfe eines Raspberry Pi und eines Temperatursensors. Die gemessenen Daten werden in Echtzeit erfasst und in einer visuellen Darstellung angezeigt. Dies ist besonders nützlich für Umgebungen, in denen eine präzise Überwachung der Temperatur erforderlich ist, wie beispielsweise in Serverräumen, Gewächshäusern oder Heimautomatisierungsprojekten.
 
 # Funktionalitäten
+* Auslesen der aktuellen Temperatur
+* Auslesen von Temperaturgraph
 # Temperaturmessung
 Der angeschlossene Temperatursensor liest kontinuierlich die Temperaturwerte aus der Umgebung.
 # Echtzeitüberwachung
