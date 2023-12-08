@@ -35,7 +35,7 @@ Führen Sie das Hauptprogramm aus, um die Temperaturmessung zu starten und die v
 Beitrag und Mitwirkung
 Beiträge und Vorschläge sind willkommen! Wenn Sie dazu beitragen möchten, erstellen Sie einfach eine Fork dieses Repositories, machen Sie Ihre Änderungen und reichen Sie dann eine Pull-Anfrage ein.
 
-## Ressourcen
+# Ressourcen
 * [Node-RED Dokumentation](https://nodered.org/docs/)
 * [Raspberry Pi Dokumentation](https://www.raspberrypi.org/documentation/)
 
