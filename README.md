@@ -39,9 +39,9 @@ Beiträge und Vorschläge sind willkommen! Wenn Sie dazu beitragen möchten, ers
 Dieses Projekt ist unter der MIT-Lizenz lizenziert. Weitere Informationen finden Sie in der Lizenzdatei.
 
 # Autoren
-Steffen Schneider (@Stefn92)
-Adrian Waldthaler (@deradi07)
-Lucas Klein (@LucasVhG)
-Nils Akelbein (@nils0815)
+*Steffen Schneider (@Stefn92)
+*Adrian Waldthaler (@deradi07)
+*Lucas Klein (@LucasVhG)
+*Nils Akelbein (@nils0815)
 
 Vielen Dank für Ihre Unterstützung und viel Spaß beim Temperaturmessen mit Ihrem Raspberry Pi!
