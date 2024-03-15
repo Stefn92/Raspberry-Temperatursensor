@@ -9,16 +9,11 @@ temp = 0
 zeit = datetime.datetime.now()
 zeitformat = zeit.strftime("%H:%M:%S")
 
-conn = psycopg2.connect(
-        dbname="tempsens",
-        user="postgres",
-        password="AdminAdmin",
-        host="127.0.0.1",
-        port="5432"
-    )
 
 def getTemperatureFromFile():
     # Die aktuelle Zeit wo die Temperatur gemessen wurde
+    global zeit
+    global zeitformat
     zeit = datetime.datetime.now()
     zeitformat = zeit.strftime("%H:%M:%S")
     with open(path, 'r') as file:
@@ -30,26 +25,38 @@ def getTemperatureFromFile():
             if match:
                 # Extrahiere den gefundenen Wert und entferne das 't='
                 wert = match.group(1)
-                print("Gefundene Temperatur: ", wert)
+                formatierter_wert = wert[:2] + '.' + wert[2:]
+                wert = formatierter_wert
+                print(wert)
+                print("Temperatur aus Datei extrahiert")
+                global temp
                 temp = wert
                 # Hier kannst du weitere Verarbeitungsschritte durchführen, z.B. Wert in eine Variable speichern
 
 
 def writeToDatabase():
+    conn = psycopg2.connect(
+        dbname="tempsens",
+        user="postgres",
+        password="AdminAdmin",
+        host="127.0.0.1",
+        port="5432"
+    )
     cur = conn.cursor()
 
     # SQL-Befehl zum Einfügen eines Werts
-    sql = "INSERT INTO data (temperature, time) VALUES (%s)"
+    sql = "INSERT INTO data (temperature, time) VALUES (%s, %s)"
 
     # Wert, den du einfügen möchtest
-    wert1 = temp
-    wert2 = zeitformat
+    wert1 = str(temp)
+    wert2 = str(zeitformat)
 
     # Wert in die Datenbank einfügen
     cur.execute(sql, (wert1, wert2))
 
     # Änderungen in der Datenbank bestätigen
     conn.commit()
+    print("Daten in Datenbank eingefügt")
 
     # Cursor schließen
     cur.close()
@@ -61,5 +68,7 @@ def runProgram():
     while True:
         getTemperatureFromFile()
         writeToDatabase()
-        time.sleep(60)
+        time.sleep(5)
 
+
+runProgram()
