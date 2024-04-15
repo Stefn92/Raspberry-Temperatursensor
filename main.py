@@ -31,9 +31,11 @@ def getTemperatureFromFile():
                 value = match.group(1)
                 formattedValue = value[:2] + '.' + value[2:]
                 value = formattedValue
+                # Runde den Wert auf eine Nachkommastelle
+                rounded_value = round(value, 1)
                 print("Temperatur aus Datei extrahiert...")
                 global currentTemp
-                currentTemp = value
+                currentTemp = rounded_value
 
 def writeToDatabase():
     conn = psycopg2.connect(
