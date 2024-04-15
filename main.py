@@ -4,22 +4,22 @@ import psycopg2
 import time
 
 path = "/sys/bus/w1/devices/28-0000092b9435/w1_slave"
-currentTemp = 0
-currentTime = datetime.datetime.now()
-currentDate = datetime.datetime.today()
-timeFormat = currentTime.strftime("%H:%M:%S")
-dateFormat = currentDate.strftime("%Y-%m-%d")
+current_temp = 0
+current_time = datetime.datetime.now()
+current_date = datetime.datetime.today()
+time_format = current_time.strftime("%H:%M:%S")
+date_format = current_date.strftime("%Y-%m-%d")
 
-def getTemperatureFromFile():
+def get_temperature_from_file():
     # Die aktuelle Zeit, wo die Temperatur gemessen wurde
-    global currentTime
-    global timeFormat
-    global currentDate
-    global dateFormat
-    currentTime = datetime.datetime.now()
-    timeFormat = currentTime.strftime("%H:%M:%S")
-    currentDate = datetime.datetime.today()
-    dateFormat = currentDate.strftime("%Y-%m-%d")
+    global current_time
+    global time_format
+    global current_date
+    global date_format
+    current_time = datetime.datetime.now()
+    time_format = current_time.strftime("%H:%M:%S")
+    current_date = datetime.datetime.today()
+    date_format = current_date.strftime("%Y-%m-%d")
     with open(path, 'r') as file:
         # Durch die Datei Zeile für Zeile iterieren
         for line in file:
@@ -28,16 +28,15 @@ def getTemperatureFromFile():
             # Falls ein Match gefunden wurde
             if match:
                 # Extrahiere den gefundenen Wert und entferne das 't='
-                value = match.group(1)
-                formattedValue = value[:2] + '.' + value[2:]
-                value = formattedValue
+                temp = match.group(1)
+                rounded_temp = temp[:2] + '.' + temp[2:]
+                temp = rounded_temp
                 # Runde den Wert auf eine Nachkommastelle
-                rounded_value = round(value, 1)
-                print("Temperatur aus Datei extrahiert...")
-                global currentTemp
-                currentTemp = rounded_value
+                rounded_value = round(temp, 1)
+                global current_temp
+                current_temp = rounded_value
 
-def writeToDatabase():
+def write_to_database():
     conn = psycopg2.connect(
         dbname="tempsens",
         user="postgres",
@@ -50,16 +49,15 @@ def writeToDatabase():
     # SQL-Befehl zum Einfügen eines Werts
     sql = "INSERT INTO data (temperature, time, date) VALUES (%s, %s, %s)"
 
-    temp = str(currentTemp)
-    time = str(timeFormat)
-    date = str(dateFormat)
+    temp = str(current_temp)
+    time = str(time_format)
+    date = str(date_format)
 
     # Wert in die Datenbank einfügen
     cur.execute(sql, (temp, time, date))
 
     # Änderungen in der Datenbank bestätigen
     conn.commit()
-    print("Daten in Datenbank eingefügt...")
 
     # Cursor schließen
     cur.close()
@@ -67,11 +65,11 @@ def writeToDatabase():
     # Verbindung zur Datenbank schließen
     conn.close()
 
-# Programm wird alle 5 Sekunden ausgeführt
-def runProgram():
+# Programm wird alle 60 Sekunden ausgeführt
+def run_program():
     while True:
-        getTemperatureFromFile()
-        writeToDatabase()
-        time.sleep(5)
+        get_temperature_from_file()
+        write_to_database()
+        time.sleep(60)
 
-runProgram()
+run_program()
