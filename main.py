@@ -29,12 +29,12 @@ def get_temperature_from_file():
             if match:
                 # Extrahiere den gefundenen Wert und entferne das 't='
                 temp = match.group(1)
-                rounded_temp = temp[:2] + '.' + temp[2:]
-                temp = rounded_temp
+                rounded_temp = float(temp[:2] + '.' + temp[2:])
                 # Runde den Wert auf eine Nachkommastelle
-                rounded_value = round(temp, 1)
+                rounded_value = round(rounded_temp, 1)
+                strTemp = str(rounded_value)
                 global current_temp
-                current_temp = rounded_value
+                current_temp = strTemp
 
 def write_to_database():
     conn = psycopg2.connect(
